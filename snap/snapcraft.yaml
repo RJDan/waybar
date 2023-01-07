@@ -1,0 +1,159 @@
+name: waybar # you probably want to 'snapcraft register <name>'
+base: core20 # the base snap is the execution environment for this snap
+version: '0.1' # just for humans, typically '1.2+git' or '1.3.2'
+summary: Wayland bar for Sway. # 79 char long summary
+description: |
+  Highly customizable Wayland bar for Sway and Wlroots based compositors.
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+apps:
+    waybar:
+        command: usr/local/bin/waybar
+        #extensions: [gnome-3-38]
+        plugs:
+            - x11
+            - wayland
+            - opengl
+            - desktop
+            - desktop-legacy
+            - unity7
+            #- audio-playback
+
+# This is one of four snippets that relate to providing the userspace graphics needed by your application.
+# You can treat this as "magic" so long as you don't need to make changes.
+# On the Mir discourse forum there's a lot more detail on [the graphics-core20 Snap interface](https://discourse.ubuntu.com/t/the-graphics-core20-snap-interface/23000) and it's use.
+#plugs:
+#  graphics-core20:
+ #   interface: content
+ #   target: $SNAP/graphics
+ #   default-provider: mesa-core20
+
+#environment:
+  # This is one of four snippets that relate to providing the userspace graphics needed by your application.
+  # i just copied this from another snap, I dont know if it is necessary, it doesnt seem to do anything
+  #LD_LIBRARY_PATH:    $SNAP/graphics/lib
+  #LIBGL_DRIVERS_PATH: $SNAP/graphics/dri
+  #LIBVA_DRIVERS_PATH: $SNAP/graphics/dri
+  #__EGL_VENDOR_LIBRARY_DIRS: $SNAP/graphics/glvnd/egl_vendor.d
+  # Other, generally useful environment settings...
+  # XDG config
+  #XDG_CACHE_HOME:  $SNAP_USER_COMMON/.cache
+  #XDG_CONFIG_HOME: $SNAP_USER_DATA/.config
+  #XDG_CONFIG_DIRS: $SNAP/etc/xdg
+  # XKB config
+  #XKB_CONFIG_ROOT: $SNAP/usr/share/X11/xkb
+  #XDG_CURRENT_DESKTOP : Unity
+
+# The `layout` ensures that files can be found by applications where they are expected by the toolkit or application.
+#layout:
+  # This is one of four snippets that relate to providing the userspace graphics needed by your application.
+  # These paths (/usr/share/libdrm and /usr/share/drirc.d) are hardcoded in mesa.
+  #/usr/share/libdrm:  # Needed by mesa-core20 on AMD GPUs
+   # bind: $SNAP/graphics/libdrm
+  #/usr/share/drirc.d:  # Used by mesa-core20 for app specific workarounds
+  #  bind: $SNAP/graphics/drirc.d
+  # Other, generally useful paths
+  #/usr/share/fonts:
+    #bind: $SNAP/usr/share/fonts
+  #/usr/share/icons:
+    #bind: $SNAP/usr/share/icons
+  #/usr/share/sounds:
+    #bind: $SNAP/usr/share/sounds
+  #/etc/fonts:
+    #bind: $SNAP/etc/fonts
+
+    #or a functional tray you must have libappindicator-* installed and export XDG_CURRENT_DESKTOP=Unity
+
+parts:
+    waybar:
+        source: https://github.com/Alexays/Waybar.git
+        source-type: git
+        source-tag: "0.9.0"
+        plugin: meson
+        build-packages:
+        #- multipass-sshfs # requested by snapcraft
+        - libappindicator-dev # libappindicator3 doesnt seem to change anything
+        - clang-tidy
+        - g++
+#        - libboost-filesystem-dev
+        - libdbusmenu-gtk3-dev
+        - libevdev-dev
+#        - libffi-dev
+        - libfmt-dev
+#        - libfreetype6-dev
+        - libgirepository1.0-dev
+        - libgtk-3-dev
+        - libgtkmm-3.0-dev
+        - libinput-dev
+        - libjsoncpp-dev
+        - libmpdclient-dev
+        - libnl-3-dev
+        - libnl-genl-3-dev
+        - libpulse-dev
+        - libsigc++-2.0-dev
+        - libspdlog-dev
+        - libwayland-dev
+        - libxkbcommon-dev
+        - make
+        - ninja-build
+        - pkg-config # needed for the build to find wayland-client
+#        - libxkbregistry-dev
+        #- scdoc
+        - wayland-protocols
+        stage-packages:
+        - libappindicator1
+        - gobject-introspection
+        - libasyncns0
+        - libatk-bridge2.0-0
+        - libatk1.0-0
+        - libatkmm-1.6-1v5
+        - libatspi2.0-0
+        - libcairo-gobject2
+        - libcairomm-1.0-1v5
+        - libdatrie1
+        - libdbusmenu-glib4
+        - libdbusmenu-gtk3-4
+        - libepoxy0
+        - libflac8
+        - libfribidi0
+        - libgdk-pixbuf2.0-0
+        - libglibmm-2.4-1v5
+        - libgtk-3-0
+        - libgtkmm-3.0-1v5
+        - libharfbuzz-bin
+        - libjsoncpp1
+        - libmpdclient2
+        - libogg0
+        - libpango-1.0-0
+        - libpangocairo-1.0-0
+        - libpangoft2-1.0-0
+        - libpangomm-1.4-1v5
+        - libpulse0
+        - libsigc++-2.0-0v5
+        - libsndfile1
+        - libspdlog1
+        - libthai0
+        - libvorbis0a
+        - libvorbisenc2
+        - libwayland-cursor0
+        - libwayland-egl1
+        - libxcomposite1
+        - libxcursor1
+        - libxdamage1
+        - libxfixes3
+        - libxi6
+        - libxinerama1
+        - libxkbcommon0
+        - libxrandr2
+        - scdoc
+        - upower
+#        - epoll-shim
+#        - fonts-freefont-ttf
+#        - libffi8 #package not found
+#        - libfreetype6
+#        - libinotify
+#        - libxkbregistry0 # package not found
+
+
