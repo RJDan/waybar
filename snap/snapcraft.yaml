@@ -6,12 +6,12 @@ description: |
   Highly customizable Wayland bar for Sway and Wlroots based compositors.
 
 grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
+confinement: strict # use 'strict' once you have the right plugs and slots
 
 apps:
     waybar:
         command: usr/local/bin/waybar
-        #extensions: [gnome-3-38]
+        extensions: [gnome-3-38]
         plugs:
             - x11
             - wayland
@@ -19,7 +19,7 @@ apps:
             - desktop
             - desktop-legacy
             - unity7
-            #- audio-playback
+            - audio-playback
 
 # This is one of four snippets that relate to providing the userspace graphics needed by your application.
 # You can treat this as "magic" so long as you don't need to make changes.
@@ -47,22 +47,22 @@ apps:
   #XDG_CURRENT_DESKTOP : Unity
 
 # The `layout` ensures that files can be found by applications where they are expected by the toolkit or application.
-#layout:
+layout:
   # This is one of four snippets that relate to providing the userspace graphics needed by your application.
   # These paths (/usr/share/libdrm and /usr/share/drirc.d) are hardcoded in mesa.
-  #/usr/share/libdrm:  # Needed by mesa-core20 on AMD GPUs
-   # bind: $SNAP/graphics/libdrm
-  #/usr/share/drirc.d:  # Used by mesa-core20 for app specific workarounds
-  #  bind: $SNAP/graphics/drirc.d
+  /usr/share/libdrm:  # Needed by mesa-core20 on AMD GPUs
+    bind: $SNAP/graphics/libdrm
+  /usr/share/drirc.d:  # Used by mesa-core20 for app specific workarounds
+    bind: $SNAP/graphics/drirc.d
   # Other, generally useful paths
-  #/usr/share/fonts:
-    #bind: $SNAP/usr/share/fonts
-  #/usr/share/icons:
-    #bind: $SNAP/usr/share/icons
-  #/usr/share/sounds:
-    #bind: $SNAP/usr/share/sounds
-  #/etc/fonts:
-    #bind: $SNAP/etc/fonts
+  /usr/share/fonts:
+    bind: $SNAP/usr/share/fonts
+  /usr/share/icons:
+    bind: $SNAP/usr/share/icons
+  /usr/share/sounds:
+    bind: $SNAP/usr/share/sounds
+  /etc/fonts:
+    bind: $SNAP/etc/fonts
 
     #or a functional tray you must have libappindicator-* installed and export XDG_CURRENT_DESKTOP=Unity
 
